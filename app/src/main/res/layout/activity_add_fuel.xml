@@ -9,23 +9,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.android.gaoyun.autoapp.addFuelActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Добавить заправку"
-        android:id="@+id/addFuel"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/editLiters"
-        android:layout_below="@+id/addFuel"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:text="Литры" />
