@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.android.gaoyun.autoapp.addFuelActivity">
+    tools:context=".AddFuelActivity">
 
     <EditText
         android:layout_width="wrap_content"
@@ -17,7 +17,7 @@
         android:id="@+id/editLiters"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:text="Литры" />
+        android:hint="Литры" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -26,8 +26,10 @@
         android:layout_below="@+id/editLiters"
         android:layout_marginTop="20dp"
         android:layout_alignEnd="@+id/editLiters"
-        android:text="Марка"
-        android:layout_alignStart="@+id/editLiters" />
+        android:hint="Марка"
+        android:layout_alignStart="@+id/editLiters"
+        android:minLines="1"
+        android:singleLine="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -38,7 +40,7 @@
         android:layout_below="@+id/fuelMarkEdit"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Цена за литр" />
+        android:hint="Цена за литр" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -49,14 +51,16 @@
         android:layout_below="@+id/editPrice"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Пробег" />
+        android:hint="Пробег" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Готово"
+        android:hint="Готово"
         android:id="@+id/fuelAddbutton"
         android:layout_below="@+id/editRange"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:onClick="saveRefill"/>
+
 </RelativeLayout>
