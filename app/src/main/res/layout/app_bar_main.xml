@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -23,11 +24,60 @@
 
     <include layout="@layout/content_main" />
 
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom|end"
+        fab:fab_addButtonColorNormal="#FF5722"
+        fab:fab_addButtonColorPressed="#FF5722"
+        fab:fab_addButtonPlusIconColor="#FFFFFF"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp">
+
+        <!--<com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="#FF5722"
+            fab:fab_title="Action A"
+            fab:fab_colorPressed="#FF5722" /> -->
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="#FF5722"
+            fab:fab_colorPressed="#FF5722"
+            app:fab_icon="@drawable/ic_local_gas_station_white_24dp" />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+
+    <!--
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
+        android:layout_margin="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin" />
+        android:src="@drawable/ic_add_white_48dp"/>
+
+    <com.bowyer.app.fabtoolbar.FabToolbar
+        android:id="@+id/fabtoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:tb_color="@color/colorPrimary"
+        app:tb_container_gravity="center"
+        app:tb_anim_duration="400"
+        app:tb_fab_type="normal">
+
+    </com.bowyer.app.fabtoolbar.FabToolbar>
+    -->
 
 </android.support.design.widget.CoordinatorLayout>

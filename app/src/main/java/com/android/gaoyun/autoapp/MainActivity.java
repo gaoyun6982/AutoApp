@@ -1,10 +1,10 @@
 package com.android.gaoyun.autoapp;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,9 +13,30 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.getbase.floatingactionbutton.FloatingActionButton;
+
+import data.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    static TextView textCar;
+    static TextView textRange;
+    static TextView newRange;
+
+    SQLiteDatabase sdb;
+    DatabaseHelper databaseHelper;
+
+    Cursor carCursor;
+    Cursor dataCursor;
+
+    Intent fuelAddIntent;
+
+    public static final int REFILL_RESULT = 1;
+    public static boolean REFILL_STATUS = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,18 +45,23 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        newRange = (TextView) findViewById(R.id.newRangeText);
+        textCar = (TextView) findViewById(R.id.modelText);           //Access to UI components
+        textRange = (TextView) findViewById(R.id.rangeText);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
 
-                Intent fuelAddIntent = new Intent(MainActivity.this, addFuelActivity.class);
-                startActivity(fuelAddIntent);
+                fuelAddIntent = new Intent(MainActivity.this, AddFuelActivity.class);
+                startActivityForResult(fuelAddIntent, REFILL_RESULT);
 
             }
+
+
         });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -45,6 +71,43 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        /*if(flag){
+
+            Intent intent = new Intent(MainActivity.this, NewCarActivity.class);
+            startActivity(intent);
+
+            flag = false;
+
+            drawMainUI();
+
+        } else{
+
+            drawMainUI();
+
+        }*/
+
+        try{
+
+            drawMainUI();
+
+        }catch (Exception needSQL){
+
+            Intent intent = new Intent(MainActivity.this, NewCarActivity.class);
+            startActivity(intent);
+
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if((requestCode == REFILL_RESULT)&&(resultCode == RESULT_OK)){
+            updateLastRefill();
+            REFILL_STATUS = true;
+        }
+
     }
 
     @Override
@@ -85,22 +148,70 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_refill) {
 
-        } else if (id == R.id.nav_slideshow) {
+            if(REFILL_STATUS){
 
-        } else if (id == R.id.nav_manage) {
+                Intent fuelStatistics = new Intent(MainActivity.this, FuelStatisticsActivity.class);
+                startActivity(fuelStatistics);
 
-        } else if (id == R.id.nav_share) {
+            }else{
 
-        } else if (id == R.id.nav_send) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Нет данных по заправкам. Сначала добавьте их.", Toast.LENGTH_SHORT);
+                toast.show();
+
+            }
 
         }
+                /*else if (id == R.id.nav_gallery) {
+
+                } else if (id == R.id.nav_slideshow) {
+
+                } else if (id == R.id.nav_manage) {
+
+                } else if (id == R.id.nav_share) {
+
+                } else if (id == R.id.nav_send) {
+
+                }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void updateLastRefill(){
+        try {
+            dataCursor = sdb.query("refills", new String[]{databaseHelper.RANGE_COLUMN}, null, null, null, null, null);
+            dataCursor.moveToLast();
+            newRange.setText("Последняя заправка на " + dataCursor.getString(dataCursor.getColumnIndex(databaseHelper.RANGE_COLUMN)) + " км");
+        } catch (Exception e) {
+            dataCursor = sdb.query("car", new String[]{databaseHelper.RANGE_DEFAULT_COLUMN}, null, null, null, null, null);
+            newRange.setText("Вы ещё ни разу не заправлялись с нами!");
+        }
+    }
+
+    public void drawMainUI(){
+
+        databaseHelper = new DatabaseHelper(this, "autoAppBase.db", null, 1);
+
+        try {
+            sdb = databaseHelper.getWritableDatabase();
+        } catch (Exception sqlEx){
+            sdb = databaseHelper.getReadableDatabase();
+        }
+
+        carCursor = sdb.query("car", new String[]{databaseHelper.CAR_MANUFACTURER, databaseHelper.CAR_MODEL, databaseHelper.RANGE_DEFAULT_COLUMN}, null, null, null, null, null);
+
+        updateLastRefill();
+
+        carCursor.moveToFirst();
+        textCar.setText(carCursor.getString(carCursor.getColumnIndex(databaseHelper.CAR_MANUFACTURER)) + " " + carCursor.getString(carCursor.getColumnIndex(databaseHelper.CAR_MODEL)));
+
+        carCursor.moveToFirst();
+        textRange.setText("Вы с нами с " + carCursor.getString(carCursor.getColumnIndex(databaseHelper.RANGE_DEFAULT_COLUMN)) + " км");
+
+    }
+
 }

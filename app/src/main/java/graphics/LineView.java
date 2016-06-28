@@ -83,7 +83,7 @@ public class LineView extends View {
     //점선표시
     private Boolean drawDotLine = false;
     //라인컬러
-    private String[] colorArray = {"#e74c3c","#2980b9","#1abc9c"};
+    private String[] colorArray = {"#FF5722","#3F51B5","#4CAF50"};
     //popup 컬러
     private int[] popupColorArray = {R.drawable.popup_red,R.drawable.popup_blue, R.drawable.popup_green};
 
@@ -310,12 +310,13 @@ public class LineView extends View {
                 else if(showPopupType == SHOW_POPUPS_MAXMIN_ONLY){
                     if(d.data == MaxValue)
                         drawPopup(canvas, String.valueOf(d.data), d.setupPoint(tmpPoint),popupColorArray[k%3]);
+                        /* drawing popups max and min permanently
                     if(d.data == MinValue)
-                        drawPopup(canvas, String.valueOf(d.data), d.setupPoint(tmpPoint),popupColorArray[k%3]);
+                        drawPopup(canvas, String.valueOf(d.data), d.setupPoint(tmpPoint),popupColorArray[k%3]);*/
                 }
             }
         }
-// 선택한 dot 만 popup 이 뜨게 한다.
+
         if(showPopup && selectedDot != null){
             drawPopup(canvas,
                     String.valueOf(selectedDot.data),
@@ -362,7 +363,6 @@ public class LineView extends View {
         return r.height();
     }
 
-    //도트그리기
     private void drawDots(Canvas canvas){
         Paint bigCirPaint = new Paint();
         bigCirPaint.setAntiAlias(true);
@@ -379,7 +379,6 @@ public class LineView extends View {
         }
     }
 
-    //선그리기
     private void drawLines(Canvas canvas){
         Paint linePaint = new Paint();
         linePaint.setAntiAlias(true);
@@ -435,7 +434,8 @@ public class LineView extends View {
             //draw solid lines
             for(int i=0;i<yCoordinateList.size();i++){
                 if((yCoordinateList.size()-1-i)%dataOfAGird == 0){
-                    canvas.drawLine(0,yCoordinateList.get(i),getWidth(),yCoordinateList.get(i),paint);
+                    canvas.drawLine(0, yCoordinateList.get(i), getWidth(), yCoordinateList.get(i),paint);
+                    //canvas.drawText(yCoordinateList.get(i).toString(),0,yCoordinateList.get(i), paint);
                 }
             }
         }

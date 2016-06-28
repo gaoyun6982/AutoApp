@@ -2,12 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.gaoyun.autoapp">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        android:hardwareAccelerated="false"
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -27,6 +33,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.gaoyun.autoapp.MainActivity" />
         </activity>
+        <activity android:name=".NewCarActivity"></activity>
     </application>
 
 </manifest>
