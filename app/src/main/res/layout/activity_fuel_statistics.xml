@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/refill"
+                android:src="@drawable/refill_stats_1"
                 app:layout_collapseMode="parallax"/>
 
             <android.support.v7.widget.Toolbar

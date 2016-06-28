@@ -7,10 +7,37 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/refill"
+                app:layout_collapseMode="parallax"/>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -104,8 +131,14 @@
      <ru.yandex.yandexmapkit.MapView
          android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="150dp"
          android:layout_marginTop="10dp"
+         android:onClick="checkGeo"
+         android:animationCache="true"
+         android:persistentDrawingCache="all"
+         android:alwaysDrawnWithCache="true"
+         android:drawingCacheQuality="auto"
+         android:soundEffectsEnabled="true"
          android:layout_below="@+id/seekBar"
          android:apiKey="oFLmlTN7o4WKqoqtg8WSRObLw9AfOngJJKFCVcT-Y-ekQVnPlt3aCzdxKzbV09v6IXbgUPpEGsChGrn6YuWd5jFBuxz6qtB8gR8v~DVb-fQ="/>
 
@@ -120,4 +153,5 @@
         android:onClick="saveRefill"/>
 
 </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

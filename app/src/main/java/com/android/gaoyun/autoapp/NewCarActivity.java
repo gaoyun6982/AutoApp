@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -40,7 +41,8 @@ public class NewCarActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_car);
 
-        setTitle("Создайте автомобиль");
+        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle("Ваш автомобиль");
 
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
