@@ -12,12 +12,14 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 import data.DatabaseHelper;
 
@@ -75,6 +77,21 @@ public class NewCarActivity extends Activity {
         values.put(databaseHelper.RANGE_DEFAULT_COLUMN, defaultRange);
 
         sdb.insert("car", null, values);
+
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM MM dd, yyyy h:mm a");
+        String refillDate = sdf.format(date);
+
+        SeekBar fuelLevel = (SeekBar)findViewById(R.id.seekBar);
+        int level = Integer.valueOf(fuelLevel.getProgress());
+
+        ContentValues defRefillValues = new ContentValues();
+        values.put(databaseHelper.RANGE_COLUMN, defaultRange);
+        values.put(databaseHelper.MARK_COLUMN, "-");
+        values.put(databaseHelper.REFILL_DATE_COLUMN, refillDate);
+        values.put(databaseHelper.LEVEL_COLUMN, level);
+
+        sdb.insert("refills", null, defRefillValues);
 
         carCursor = sdb.query("car", new String[]{databaseHelper.CAR_MANUFACTURER, databaseHelper.CAR_MODEL, databaseHelper.RANGE_DEFAULT_COLUMN}, null, null, null, null, null);
 

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                fuelAddIntent = new Intent(MainActivity.this, AddFuelActivity.class);
+                fuelAddIntent = new Intent(MainActivity.this, addFuelActivity.class);
                 startActivityForResult(fuelAddIntent, REFILL_RESULT);
 
             }
