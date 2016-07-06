@@ -18,29 +18,38 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns{
     private static final int DATABASE_VERSION = 1;
     private static final String FILE_DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString();
 
-    private static final String DATABASE_TABLE_REFILL = "refills";
-        public static final String VOLUME_COLUMN = "volume";
-        public static final String MARK_COLUMN = "mark";
-        public static final String PRICE_COLUMN = "price";
-        public static final String RANGE_COLUMN = "range";
-        public static final String LEVEL_COLUMN = "fuelLevel";
 
     private static final String DATABASE_TABLE_CAR = "car";
         public static final String RANGE_DEFAULT_COLUMN = "defRange";
         public static final String CAR_MANUFACTURER = "manufacturer";
         public static final String CAR_MODEL = "model";
 
-    private static final String DATABASE_CREATE_REFILL_SCRIPT = "create table "
-            + DATABASE_TABLE_REFILL + " (" + BaseColumns._ID
-            + " integer primary key autoincrement, " + VOLUME_COLUMN
-            + " double, " + MARK_COLUMN + " text not null, " + PRICE_COLUMN
-            + " double, " + RANGE_COLUMN + " double, " + LEVEL_COLUMN + " integer);";
+    private static final String DATABASE_TABLE_REFILL = "refills";
+        public static final String VOLUME_COLUMN = "volume";
+        public static final String MARK_COLUMN = "mark";
+        public static final String PRICE_COLUMN = "price";
+        public static final String RANGE_COLUMN = "range";
+        public static final String LEVEL_COLUMN = "fuelLevel";
+        public static final String REFILL_DATE_COLUMN = "refillDate";
+
+    private static final String DATABASE_TABLE_REFILL_STATION = "station";
+        public static final String LATITUDE_COLUMN = "latitude";
+        public static final String LONGITUDE_COLUMN = "longitude";
+        //public static final String MARK_COLUMN = "mark";
 
     private static final String DATABASE_CREATE_CAR_SCRIPT = "create table "
             + DATABASE_TABLE_CAR + " (" + BaseColumns._ID
             + " integer primary key autoincrement, " + CAR_MANUFACTURER
             + " text not null, " + CAR_MODEL + " text not null, " + RANGE_DEFAULT_COLUMN
             + " double);";
+
+    private static final String DATABASE_CREATE_REFILL_SCRIPT = "create table "
+            + DATABASE_TABLE_REFILL + " (" + BaseColumns._ID
+            + " integer primary key autoincrement, " + VOLUME_COLUMN
+            + " double, " + MARK_COLUMN + " text not null, " + PRICE_COLUMN
+            + " double, " + RANGE_COLUMN + " double, " + LEVEL_COLUMN + " integer," + REFILL_DATE_COLUMN + " text not null);";
+
+
 
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, FILE_DIR + File.separator + name, factory, version);

@@ -20,12 +20,14 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+
 import data.DatabaseHelper;
 import ru.yandex.yandexmapkit.MapController;
 import ru.yandex.yandexmapkit.MapView;
 import ru.yandex.yandexmapkit.utils.GeoPoint;
 
-public class AddFuelActivity extends Activity {
+public class addFuelActivity extends Activity {
 
     public DatabaseHelper databaseHelper;
     SQLiteDatabase sdb;
@@ -39,6 +41,7 @@ public class AddFuelActivity extends Activity {
 
     String mark = "";
     String lastRange = "";
+    String refillDate = "";
 
     SeekBar fuelLevel;
 
@@ -100,14 +103,22 @@ public class AddFuelActivity extends Activity {
         final LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                mMapController.setPositionAnimationTo(new GeoPoint(location.getLatitude(), location.getLongitude()));
-                //setTitle(location.getLatitude() + " " + location.getLongitude());
+                try {
+                    mMapController.setPositionAnimationTo(new GeoPoint(location.getLatitude(), location.getLongitude()));
+                    //setTitle(location.getLatitude() + " " + location.getLongitude());
+                }catch(Exception geoException){
+                    System.out.println("geoException");
+                }
             }
 
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
-                mMapController.setPositionAnimationTo(new GeoPoint(location.getLatitude(), location.getLongitude()));
-                //setTitle(location.getLatitude() + " " + location.getLongitude());
+                try {
+                    mMapController.setPositionAnimationTo(new GeoPoint(location.getLatitude(), location.getLongitude()));
+                    //setTitle(location.getLatitude() + " " + location.getLongitude());
+                }catch(Exception geoException){
+                    System.out.println("geoException");
+                }
             }
 
             @Override
@@ -130,14 +141,22 @@ public class AddFuelActivity extends Activity {
             System.out.println("Permission location error.");
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        }catch (Exception geoException){
+            System.out.println("geoException");
+        }
 
 
-        mMapController.setPositionAnimationTo(new GeoPoint(location.getAltitude(),location.getLongitude()));
+        //mMapController.setPositionAnimationTo(new GeoPoint(location.getAltitude(),location.getLongitude()));
 
     }
 
     public void saveRefill(View view) {
+
+        long date = System.currentTimeMillis();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM MM dd, yyyy h:mm a");
 
         successRefill = true;
 
@@ -159,6 +178,7 @@ public class AddFuelActivity extends Activity {
             range = Double.parseDouble(editRange.getText().toString());
             mark = fuelMarkEdit.getText().toString();
             level = Integer.valueOf(fuelLevel.getProgress());
+            refillDate = sdf.format(date);
 
             while (cursor.moveToNext()) {
                 lastRange = cursor.getString(cursor.getColumnIndex(databaseHelper.RANGE_COLUMN));
@@ -223,6 +243,7 @@ public class AddFuelActivity extends Activity {
             values.put(databaseHelper.PRICE_COLUMN, price);
             values.put(databaseHelper.RANGE_COLUMN, range);
             values.put(databaseHelper.LEVEL_COLUMN, level);
+            values.put(databaseHelper.REFILL_DATE_COLUMN, refillDate);
 
             sdb.insert("refills", null, values);
 

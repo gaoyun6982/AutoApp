@@ -28,7 +28,7 @@ public class FuelStatisticsActivity extends Activity{
 
         sdb = databaseHelper.getReadableDatabase();
 
-        double range1 = 31900;
+        double range1 = 0;
         double range2 = 0;
         double price2 = 0;
         double volume = 0;
@@ -37,6 +37,8 @@ public class FuelStatisticsActivity extends Activity{
 
         Cursor cursor = sdb.query("refills", new String[]{databaseHelper.RANGE_COLUMN, databaseHelper.VOLUME_COLUMN, databaseHelper.PRICE_COLUMN ,databaseHelper.LEVEL_COLUMN},null,null,null,null,null);
         cursor.moveToFirst();
+
+        range1 = cursor.getDouble(cursor.getColumnIndex(databaseHelper.RANGE_COLUMN));
 
         ArrayList<String> horizAxisOne = new ArrayList<>();
 
